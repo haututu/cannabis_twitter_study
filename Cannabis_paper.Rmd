@@ -1,0 +1,284 @@
+---
+title: "Cannabis"
+author: "BCR"
+date: "6/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library (tidyverse)
+library (lubridate)
+library(RColorBrewer)
+library(wesanderson)
+
+```
+
+
+# Aim 1a. All cannabis-related Tweets
+
+Pull it in and clean
+
+```{r, }
+ALL <- read_csv("1. ALL cannabis.csv") %>%
+  mutate (Date = lubridate::mdy(Date)) %>%
+  filter (Date > "2009-07-12") %>%
+  mutate (All = (Neutral + Anti + Pro)) %>%
+  mutate (month = month(Date),
+          year = year (Date),
+          week = week(Date))
+```
+
+Proportion of each Tweet
+
+```{r, }
+ALL <- ALL %>%
+  mutate (Pro_percent = (Pro/All),
+          Anti_percent = (Anti/All),
+          Neutral_percent = (Neutral/All))%>%
+  replace(is.na(.), 0)
+
+
+ALL %>%
+  summarise(All = sum(All),
+            pro = sum(Pro),
+            Anti = sum(Anti),
+            Neutral = sum(Neutral)) %>%
+  summarise (pro = pro/All,
+             anti = Anti/All,
+             neutral = Neutral/All)
+
+
+              
+```
+
+Graph 1a.
+
+```{r, }
+data_long <- ALL %>%
+  select (Date, Neutral, Anti, Pro) %>%
+  gather(valence, count, Neutral:Pro)
+
+# Daily
+
+data_long %>%
+ ggplot(aes(x=Date, y=count, group=valence, color=valence)) +
+    geom_line() 
+
+data_long %>% ggplot (aes(Date, count, fill = factor(valence))) +  
+  geom_area() +
+  theme_classic () +
+  scale_fill_manual(values = wes_palette("Royal1")) +
+  labs(fill = "depth of comment") +
+  xlab("Day of the Week") +
+  ylab ("Number of comments")
+
+# Monthly
+data_long %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = sum(count)) %>%
+ggplot (aes(x=time_month, y=count, fill=valence)) +
+geom_area() +
+theme_classic() +
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("1a") +
+  xlab("Month") + ylab("Number of Tweets") + labs("Valence")
+
+#Line
+
+data_long %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = sum(count)) %>%
+ggplot (aes(x=time_month, y=count, colour=valence)) +
+geom_line() +
+theme_classic() +
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("1a") +
+  xlab("Month") + ylab("Number of Tweets") + labs("Valence")
+
+#Fucking with proportions
+
+long_prop <- ALL %>%
+  select (Date, Pro_percent, Neutral_percent, Anti_percent) %>%
+  gather(valence, count, Pro_percent:Anti_percent)
+
+long_prop %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = mean(count)) %>%
+ggplot (aes(x=time_month, y=count, colour=valence)) +
+geom_line() +
+theme_classic() +
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("1a") +
+  xlab("Month") + ylab("Proportion") + labs("Valence")
+
+```
+
+
+# Aim 1b. Unique Tweets
+
+Pull it in and clean
+
+```{r, }
+unique <- read_csv("2. Cannabis - Unique.csv") %>%
+  mutate (Date = lubridate::ymd(Date)) %>%
+  filter (Date > "2009-07-12") %>%
+  mutate (All = (Neutral + Anti + Pro))
+```
+
+Proportion of each Tweet
+
+```{r, }
+unique <- unique %>%
+  mutate (Pro_percent = (Pro/All),
+          Anti_percent = (Anti/All),
+          Neutral_percent = (Neutral/All))%>%
+  replace(is.na(.), 0)
+
+
+unique %>%
+  summarise(All = sum(All),
+            pro = sum(Pro),
+            Anti = sum(Anti),
+            Neutral = sum(Neutral)) %>%
+  summarise (pro = pro/All,
+             anti = Anti/All,
+             neutral = Neutral/All)
+              
+```
+
+Graph 1b.
+
+```{r, }
+data_long2 <- unique %>%
+  select (Date, Neutral, Anti, Pro) %>%
+  gather(valence, count, Neutral:Pro)
+
+# Daily
+
+data_long2 %>%
+ ggplot(aes(x=Date, y=count, group=valence, color=valence)) +
+    geom_line() 
+
+data_long2 %>% ggplot (aes(Date, count, fill = factor(valence))) +  
+  geom_col() +
+  theme_classic () +
+  scale_fill_manual(values = wes_palette("Royal1")) +
+  labs(fill = "depth of comment") +
+  xlab("Day of the Week") +
+  ylab ("Number of comments")
+
+# Monthly
+data_long2 %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = sum(count)) %>%
+ggplot (aes(x=time_month, y=count, fill=valence)) +
+geom_area() +
+theme_classic() +
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("1b") +
+  xlab("Month") + ylab("Number of Tweets") + labs("Valence")
+
+```
+
+
+# Aim 3. Referendum specific Tweets
+
+```{r, }
+refer <- read_csv("3. ALL Referendum.csv") %>%
+  mutate (Date = lubridate::mdy(Date)) %>%
+  filter (Date > "2017-09-23") %>%
+  mutate (All = (Neutral + Anti + Pro))
+```
+
+Proportion of each Tweet
+
+```{r, }
+
+refer %>%
+  summarise(All = sum(All),
+            pro = sum(Pro),
+            Anti = sum(Anti),
+            Neutral = sum(Neutral)) %>%
+  summarise (All = sum (All),
+                pro = pro/All,
+             anti = Anti/All,
+             neutral = Neutral/All)
+              
+```
+Figure 3.
+
+```{r, }
+# Monthly
+data_long3 <- refer %>%
+  select (Date, Neutral, Anti, Pro) %>%
+  gather(valence, count, Neutral:Pro)
+
+data_long3 %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = sum(count)) %>%
+ggplot (aes(x=time_month, y=count, fill=valence)) +
+geom_col() +
+theme_classic()+
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("2a") +
+  xlab("Month") + ylab("Number of Tweets") + labs("Valence")
+
+```
+
+
+
+# Aim 4. Referendum specific Tweets - Unique
+
+```{r, }
+refer_uni <- read_csv("4. Unique Referendum.csv") %>%
+  mutate (Date = lubridate::ymd(Date)) %>%
+  filter (Date > "2017-09-23") %>%
+  mutate (All = (Neutral + Anti + Pro))
+```
+
+Proportion of each Tweet
+
+```{r, }
+
+refer_uni %>%
+  summarise(All = sum(All),
+            pro = sum(Pro),
+            Anti = sum(Anti),
+            Neutral = sum(Neutral)) %>%
+  summarise (All = sum (All),
+                pro = pro/All,
+             anti = Anti/All,
+             neutral = Neutral/All)
+              
+```
+Figure 3.
+
+```{r, }
+# Monthly
+data_long4 <- refer_uni %>%
+  select (Date, Neutral, Anti, Pro) %>%
+  gather(valence, count, Neutral:Pro)
+
+data_long4 %>%
+mutate(time_month = floor_date(Date, unit = "month")) %>%
+group_by(valence, time_month) %>%
+summarise(count = sum(count)) %>%
+ggplot (aes(x=time_month, y=count, fill=valence)) +
+geom_col() +
+theme_classic()+
+#scale_fill_manual(values = wes_palette("Darjeeling1"))
+scale_fill_grey() +
+ggtitle("2b") +
+  xlab("Month") + ylab("Number of Tweets") + labs("Valence")
+
+```

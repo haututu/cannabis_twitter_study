@@ -1,0 +1,12 @@
+name: cannabis_sentiment
+title:
+username:
+account: abcd-lab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2486778
+bundleId: 3300298
+url: https://abcd-lab.shinyapps.io/cannabis_sentiment/
+when: 1592798038.62485
+asMultiple: FALSE
+asStatic: FALSE

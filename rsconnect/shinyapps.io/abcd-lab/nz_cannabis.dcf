@@ -1,0 +1,10 @@
+name: nz_cannabis
+title:
+username:
+account: abcd-lab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2486759
+bundleId: 3300321
+url: https://abcd-lab.shinyapps.io/nz_cannabis/
+when: 1592798820.7492
