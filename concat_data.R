@@ -22,4 +22,5 @@ bind_rows(
     mutate(topic = "referendum",
            retweets = FALSE)
   ) %>%
-  gather(valence, count, 2:4)
+  gather(valence, count, 2:4) %>%
+  write_csv("cannabis_sentiment/cannabis_data.csv")
