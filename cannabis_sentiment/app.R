@@ -4,6 +4,7 @@ library(shinyWidgets)
 library(dplyr)
 library(ggplot2)
 library(plotly)
+library(wesanderson)
 
 dat <- readr::read_csv("cannabis_data.csv") %>%
     na.omit()
@@ -38,11 +39,13 @@ ui <- dashboardPage(
             width=12
         ),
         box(
+            title="Summary",
             "Stacked summary thing",
             width=6
         ),
         box(
-            "Methody preamble",
+            title="Background and method",
+            "Blah blah preambly stuff and method",
             width=6
         )
     )
@@ -62,7 +65,8 @@ server <- function(input, output) {
                            measure == input$measure & 
                            rollup == input$rollup) %>%
                 filter(between(date, input$date_slider[1], input$date_slider[2])) %>%
-                ggplot(aes(x=date, y=value, color=valence, fill=valence)) +
+                ggplot(aes(x=date, y=value, fill=valence)) +
+                scale_fill_manual(values = wes_palette("Zissou1")) +
                 geom_area() +
                 theme_classic()
             )
