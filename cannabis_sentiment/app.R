@@ -23,6 +23,7 @@ ui <- dashboardPage(
                            choices = c("Count" = "count", "Proportion" = "proportion")),
         prettyRadioButtons(inputId = "rollup",
                            label = "Time scale for total Tweets",
+                           selected = "year",
                            choices = c("Day" = "day", "Month" = "month", "Year" = "year")),
         uiOutput("date_slider")
         ),
@@ -35,6 +36,14 @@ ui <- dashboardPage(
                      p("some pretty table")
             ),
             width=12
+        ),
+        box(
+            "Stacked summary thing",
+            width=6
+        ),
+        box(
+            "Methody preamble",
+            width=6
         )
     )
 )
