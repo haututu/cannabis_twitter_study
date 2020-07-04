@@ -31,7 +31,7 @@ ui <- dashboardPage(
     dashboardBody(
         tabBox(
             tabPanel("Plot",
-                     plotlyOutput("plot")
+                     plotlyOutput("plot_area")
                      ),
             tabPanel("Table",
                      p("some pretty table")
@@ -40,6 +40,7 @@ ui <- dashboardPage(
         ),
         box(
             title="Summary",
+            plotOutput("plot_strip"),
             "Stacked summary thing",
             width=6
         ),
@@ -57,7 +58,7 @@ server <- function(input, output) {
         sliderInput("date_slider", label = "Date Range", min = min(dat$date), max = max(dat$date), value = c(min(dat$date), max(dat$date)))
     })
     
-    output$plot <- renderPlotly({
+    output$plot_area <- renderPlotly({
         ggplotly(
             dat %>%
                 filter(retweets == input$retweets & 
@@ -70,6 +71,24 @@ server <- function(input, output) {
                 geom_area() +
                 theme_classic()
             )
+    })
+    
+    output$plot_strip <- renderPlot({
+            dat %>%
+                filter(retweets == input$retweets & 
+                           topic == input$topic &
+                           measure == "count" & 
+                           rollup == "day") %>%
+                filter(between(date, input$date_slider[1], input$date_slider[2])) %>%
+                group_by(valence) %>%
+                summarise(value = sum(value)) %>%
+                ungroup() %>%
+                mutate(total = "Total") %>%
+                ggplot(aes(x=total, y=value, fill=valence)) +
+                scale_fill_manual(values = wes_palette("Zissou1")) +
+                geom_bar(position="stack", stat="identity") +
+                theme_void() +
+                theme(legend.position="bottom")
     })
 }
 
