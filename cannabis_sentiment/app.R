@@ -18,9 +18,12 @@ ui <- dashboardPage(
         prettyRadioButtons(inputId = "topic",
                            label = "Topic filter",
                            choices = c("Referendum only" = "referendum", "Cannabis generally" = "cannabis")),
-        prettyRadioButtons(inputId = "scale",
-                           label = "Plot scale",
-                           choices = c("Raw scale" = "raw", "Log scale" = "log")),
+        prettyRadioButtons(inputId = "measure",
+                           label = "Measure",
+                           choices = c("Count" = "count", "Proportion" = "proportion")),
+        prettyRadioButtons(inputId = "rollup",
+                           label = "Time scale for total Tweets",
+                           choices = c("Day" = "day", "Month" = "month", "Year" = "year")),
         uiOutput("date_slider")
         ),
     dashboardBody(
@@ -45,10 +48,13 @@ server <- function(input, output) {
     output$plot <- renderPlotly({
         ggplotly(
             dat %>%
-                filter(retweets == input$retweets & topic == input$topic) %>%
+                filter(retweets == input$retweets & 
+                           topic == input$topic &
+                           measure == input$measure & 
+                           rollup == input$rollup) %>%
                 filter(between(date, input$date_slider[1], input$date_slider[2])) %>%
-                ggplot(aes(x=date, y=count, color=valence)) +
-                geom_line() +
+                ggplot(aes(x=date, y=value, color=valence, fill=valence)) +
+                geom_area() +
                 theme_classic()
             )
     })
