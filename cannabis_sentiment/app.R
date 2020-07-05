@@ -9,6 +9,13 @@ library(wesanderson)
 dat <- readr::read_csv("cannabis_data.csv") %>%
     na.omit()
 
+text_summary <- 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.'
+
+background_summary <- "
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source."
+
 ui <- dashboardPage(
     dashboardHeader(title="Cannabis Referendum Tracker", titleWidth = 300),
     dashboardSidebar(
@@ -40,13 +47,21 @@ ui <- dashboardPage(
         ),
         box(
             title="Summary",
-            plotOutput("plot_strip"),
-            "Stacked summary thing",
+            div(
+                plotOutput("plot_strip"),
+                inline=TRUE,
+                style="display:inline-;float: left; width: 30%"
+            ),
+            div(
+                p(text_summary), 
+                inline=TRUE,
+                style="display:inline-block;float: right; width: 70%"
+              ),
             width=6
-        ),
+            ),
         box(
             title="Background and method",
-            "Blah blah preambly stuff and method",
+            p(background_summary),
             width=6
         )
     )
