@@ -31,7 +31,7 @@ ui <- dashboardPage(
         box(
             title="Summary",
             div(
-                plotOutput("plot_strip") %>% withSpinner(),
+                plotOutput("plot_strip") %>% withSpinner(type=8),
                 inline=TRUE,
                 style="display:inline-;float: left; width: 30%"
             ),
