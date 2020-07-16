@@ -21,7 +21,8 @@ dat_raw <- bind_rows(
 
   read_csv("4. Unique Referendum.csv") %>%
     mutate(topic = "referendum",
-           retweets = FALSE)
+           retweets = FALSE,
+           Date = as.Date(Date, format = "%m/%d/%Y"))
   ) %>%
   rename(date = Date) %>%
   gather(valence, count, 2:4) 
