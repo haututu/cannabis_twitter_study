@@ -1,20 +1,5 @@
-library(shiny)
-library(shinydashboard)
-library(shinyWidgets)
-library(dplyr)
-library(ggplot2)
-library(plotly)
-library(wesanderson)
 
-dat <- readr::read_csv("cannabis_data.csv") %>%
-    na.omit()
-
-text_summary <- 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.'
-
-background_summary <- "
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source."
+source("global.R")
 
 ui <- dashboardPage(
     dashboardHeader(title="Cannabis Referendum Tracker", titleWidth = 300),
@@ -36,19 +21,17 @@ ui <- dashboardPage(
         uiOutput("date_slider")
         ),
     dashboardBody(
-        tabBox(
-            tabPanel("Plot",
-                     plotlyOutput("plot_area")
-                     ),
-            tabPanel("Table",
-                     p("some pretty table")
-            ),
-            width=12
+        box(
+            title="Timeseries",
+            plotlyOutput("plot_area") %>% withSpinner(type=8),
+            width=12,
+            solidHeader=TRUE,
+            collapsible=TRUE
         ),
         box(
             title="Summary",
             div(
-                plotOutput("plot_strip"),
+                plotOutput("plot_strip") %>% withSpinner(),
                 inline=TRUE,
                 style="display:inline-;float: left; width: 30%"
             ),
@@ -57,12 +40,48 @@ ui <- dashboardPage(
                 inline=TRUE,
                 style="display:inline-block;float: right; width: 70%"
               ),
-            width=6
+            width=6,
+            solidHeader=TRUE,
+            collapsible=TRUE
             ),
         box(
             title="Background and method",
-            p(background_summary),
-            width=6
+            div(
+                box(
+                    title = "Background",
+                    p(text_background),
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    width = 12
+                ),
+                box(
+                    title = "Method",
+                    p(text_method),
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    collapsed=TRUE,
+                    width = 12
+                ),
+                box(
+                    title = "How to use",
+                    p(text_how_to),
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    collapsed=TRUE,
+                    width = 12
+                ),
+                box(
+                    title = "About Us",
+                    p(text_about_us),
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    collapsed=TRUE,
+                    width = 12
+                )
+                ),
+            width=6,
+            solidHeader=TRUE,
+            collapsible=TRUE
         )
     )
 )
