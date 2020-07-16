@@ -36,7 +36,7 @@ ui <- dashboardPage(
                 style="display:inline-;float: left; width: 30%"
             ),
             div(
-                p(text_summary), 
+                p(text_insight), 
                 inline=TRUE,
                 style="display:inline-block;float: right; width: 70%"
               ),
@@ -44,44 +44,41 @@ ui <- dashboardPage(
             solidHeader=TRUE,
             collapsible=TRUE
             ),
-        box(
-            title="Background and method",
-            div(
-                box(
-                    title = "Background",
-                    p(text_background),
-                    solidHeader=TRUE,
-                    collapsible=TRUE,
-                    width = 12
+        div(
+            box(
+                title = "Background",
+                p(text_background),
+                solidHeader=TRUE,
+                collapsible=TRUE,
+                width = 12
                 ),
-                box(
-                    title = "Method",
-                    p(text_method),
-                    solidHeader=TRUE,
-                    collapsible=TRUE,
-                    collapsed=TRUE,
-                    width = 12
+            box(
+                title = "Method",
+                p(text_method),
+                solidHeader=TRUE,
+                collapsible=TRUE,
+                collapsed=TRUE,
+                width = 12
                 ),
-                box(
-                    title = "How to use",
-                    p(text_how_to),
-                    solidHeader=TRUE,
-                    collapsible=TRUE,
-                    collapsed=TRUE,
-                    width = 12
+            box(
+                title = "How to use",
+                p(text_how_to),
+                solidHeader=TRUE,
+                collapsible=TRUE,
+                collapsed=TRUE,
+                width = 12
                 ),
-                box(
-                    title = "About Us",
-                    p(text_about_us),
-                    solidHeader=TRUE,
-                    collapsible=TRUE,
-                    collapsed=TRUE,
-                    width = 12
-                )
+            box(
+                title = "About Us",
+                p(text_about_us),
+                solidHeader=TRUE,
+                collapsible=TRUE,
+                collapsed=TRUE,
+                width = 12
                 ),
-            width=6,
-            solidHeader=TRUE,
-            collapsible=TRUE
+        width=6,
+        inline=TRUE,
+        style="display:inline-block;float: right; width: 50%"
         )
     )
 )

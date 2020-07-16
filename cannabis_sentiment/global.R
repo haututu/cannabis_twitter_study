@@ -10,6 +10,8 @@ library(shinycssloaders)
 dat <- readr::read_csv("cannabis_data.csv") %>%
   na.omit()
 
+text_insight <- "Over the selected period, XX% of people were pro-legalisation and XX% were anti-legalisation."
+
 text_background <- "
 In September 2020, New Zealand will vote on whether cannabis should be legalised for recreational use. Given the popularity of social media sites and how common cannabis is referenced online, our aim is to report how New Zealanders are talking about cannabis on Twitter as the referendum approaches (in close to real time).
 
