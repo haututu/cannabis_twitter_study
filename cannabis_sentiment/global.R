@@ -8,7 +8,8 @@ library(wesanderson)
 library(shinycssloaders)
 
 dat <- readr::read_csv("cannabis_data.csv") %>%
-  na.omit()
+  na.omit() %>%
+  mutate(valence = factor(valence))
 
 text_insight <- "Over the selected period, XX% of people were pro-legalisation and XX% were anti-legalisation."
 

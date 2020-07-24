@@ -21,6 +21,7 @@ ui <- dashboardPage(
         uiOutput("date_slider")
         ),
     dashboardBody(
+        fluidRow(
         box(
             title="Timeseries",
             plotlyOutput("plot_area") %>% withSpinner(type=8),
@@ -36,9 +37,8 @@ ui <- dashboardPage(
                 style="display:inline-;float: left; width: 30%"
             ),
             div(
-                p(text_insight), 
-                inline=TRUE,
-                style="display:inline-block;float: right; width: 70%"
+                p("The figure to the left shows the proportion of people who show positive, neutral, or negative sentiment over the entire period selected."),
+                style="display: flex;float: right; width: 70%; flex-direction: column"
               ),
             width=6,
             solidHeader=TRUE,
@@ -80,6 +80,7 @@ ui <- dashboardPage(
         inline=TRUE,
         style="display:inline-block;float: right; width: 50%"
         )
+        )
     )
 )
 
@@ -97,10 +98,15 @@ server <- function(input, output) {
                            measure == input$measure & 
                            rollup == input$rollup) %>%
                 filter(between(date, input$date_slider[1], input$date_slider[2])) %>%
-                ggplot(aes(x=date, y=value, fill=valence)) +
+                ggplot(aes(x=date, y=value, fill=forcats::fct_rev(valence))) +
                 scale_fill_manual(values = wes_palette("Zissou1")) +
                 geom_area() +
-                theme_classic()
+                theme_classic() +
+                labs(
+                    x="Time",
+                    y="Count or Proportion",
+                    fill="Sentiment"
+                )
             )
     })
     
@@ -121,6 +127,7 @@ server <- function(input, output) {
                 theme_void() +
                 theme(legend.position="bottom")
     })
+
 }
 
 shinyApp(ui, server)
