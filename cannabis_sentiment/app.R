@@ -121,11 +121,16 @@ server <- function(input, output) {
                 summarise(value = sum(value)) %>%
                 ungroup() %>%
                 mutate(total = "Total") %>%
-                ggplot(aes(x=total, y=value, fill=valence)) +
+                ggplot(aes(x=total, y=value, fill=forcats::fct_rev(valence))) +
                 scale_fill_manual(values = wes_palette("Zissou1")) +
                 geom_bar(position="stack", stat="identity") +
                 theme_void() +
-                theme(legend.position="bottom")
+                theme(legend.position="bottom") +
+            labs(
+                x="Time",
+                y="Count or Proportion",
+                fill="Sentiment"
+            )
     })
 
 }
