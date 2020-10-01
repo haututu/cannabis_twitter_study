@@ -5,8 +5,8 @@ account: abcd-lab
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2486778
-bundleId: 3410073
+bundleId: 3686262
 url: https://abcd-lab.shinyapps.io/cannabis_sentiment/
-when: 1595203612.47207
+when: 1601450460.78435
 asMultiple: FALSE
 asStatic: FALSE
