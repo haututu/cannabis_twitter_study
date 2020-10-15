@@ -14,7 +14,7 @@ dat <- readr::read_csv("cannabis_data.csv") %>%
 text_insight <- "Over the selected period, XX% of people were pro-legalisation and XX% were anti-legalisation."
 
 text_background <- "
-In September 2020, New Zealand will vote on whether cannabis should be legalised for recreational use. Given the popularity of social media sites and how common cannabis is referenced online, our aim is to report how New Zealanders are talking about cannabis on Twitter as the referendum approaches (in close to real time).
+In October 2020, New Zealand will vote on whether cannabis should be legalised for recreational use. Given the popularity of social media sites and how common cannabis is referenced online, our aim is to report how New Zealanders are talking about cannabis on Twitter as the referendum approaches (in close to real time).
 
 Enrol to vote: https://www.govt.nz/browse/engaging-with-government/enrol-and-vote-in-an-election/enrol-to-vote/
 Read up on what you are voting on: https://www.referendums.govt.nz/cannabis/summary.html
@@ -35,5 +35,5 @@ We recommend that you focus on recent Tweets (e.g., Tweets since the last electi
 text_about_us <- "
 We are researchers from the University of Otago (Damian Scarf), University of Sydney, (Benjamin Riordan, Jacques Raubenheimer), Brown University (Jennifer Merrill), Miami University (Rose Marie Ward), and University of Victoria Wellington (Taylor Winter). Our group’s research broadly focuses on psychology, health, and substance use.
 Follow some of our other research at: https://www.facebook.com/theabcdlab/
-We are still working on the application and we will publish a preprint soon. For updates, please get in touch with Benjamin Riordan at Benjamin.riordan@sydney.edu.au or Damian Scarf at damian.scarf@otago.ac.nz.
+Our paper is now available at Drug and Alcohol Review (https://onlinelibrary.wiley.com/doi/10.1111/dar.13184). For updates, please get in touch with Benjamin Riordan at Benjamin.riordan@sydney.edu.au or Damian Scarf at damian.scarf@otago.ac.nz.
 "
